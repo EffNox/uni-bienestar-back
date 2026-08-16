@@ -1,0 +1,6 @@
+package io.owl.bienestar.patient_symptom;
+
+import java.util.UUID;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PatientSymptomRepository extends JpaRepository<PatientSymptom, UUID> { }

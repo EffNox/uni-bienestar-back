@@ -2,9 +2,21 @@ spring:
   application.name: bienestar
   main.banner-mode: off
   datasource.url: jdbc:mariadb://localhost:3306/bienestar?user=root&password=pwd
-  data.rest:
-      base-path: /api
-      
+  data.rest.base-path: /api
+
+springdoc:
+  open-api:
+    info:
+      title: "Bienestar API"
+      version: "v1"
+      description: "API para la aplicación Bienestar"
+    security:
+      - bearerAuth: [ ]
+    components:
+      security-schemes:
+        bearerAuth:
+          scheme: bearer
+
 logging:
   level:
     "[org.springframework.data.rest]": DEBUG
@@ -13,19 +25,3 @@ logging:
     "[org.hibernate.SQL]": DEBUG
     "[org.hibernate.orm.jdbc.bind]": TRACE
     "[org.hibernate.orm.jdbc.extract]": TRACE
-
-
-# | Propiedad                                  | Para qué sirve                                |
-# | ------------------------------------------ | --------------------------------------------- |
-# | `spring.data.rest.base-path`               | Prefijo/base de las URLs REST                 |
-# | `spring.data.rest.default-media-type`      | Media type por defecto                        |
-# | `spring.data.rest.default-page-size`       | Cantidad de elementos por página por defecto  |
-# | `spring.data.rest.detection-strategy`      | Determina qué repositories se exponen         |
-# | `spring.data.rest.enable-enum-translation` | Traducción de valores enum                    |
-# | `spring.data.rest.limit-param-name`        | Nombre del parámetro para limitar resultados  |
-# | `spring.data.rest.max-page-size`           | Máximo de elementos por página                |
-# | `spring.data.rest.page-param-name`         | Nombre del parámetro de página                |
-# | `spring.data.rest.return-body-on-create`   | Si `POST` devuelve el objeto creado           |
-# | `spring.data.rest.return-body-on-delete`   | Si `DELETE` devuelve body                     |
-# | `spring.data.rest.return-body-on-update`   | Si `PUT/PATCH` devuelve el objeto actualizado |
-# | `spring.data.rest.sort-param-name`         | Nombre del parámetro de ordenamiento          |
