@@ -15,6 +15,7 @@ springdoc:
     components:
       security-schemes:
         bearerAuth:
+          type: http
           scheme: bearer
 
 logging:

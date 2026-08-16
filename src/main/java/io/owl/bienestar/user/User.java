@@ -25,6 +25,7 @@ public class User {
   private UUID id;
 
   private String email;
+
   @Transient
   private String password;
 
