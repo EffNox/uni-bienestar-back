@@ -53,6 +53,8 @@ CREATE TABLE doctor (
     id               BINARY(16) PRIMARY KEY,
     user_id          BINARY(16) NOT NULL UNIQUE,
     dni              VARCHAR(20) NOT NULL UNIQUE,
+    firstname        VARCHAR(100) NOT NULL,
+    lastname         VARCHAR(100) NOT NULL,
     cmp              VARCHAR(50) NOT NULL UNIQUE,
     biografia        TEXT,
     es_independiente BOOLEAN NOT NULL DEFAULT FALSE,
@@ -62,8 +64,15 @@ CREATE TABLE doctor (
     disponible       BOOLEAN NOT NULL DEFAULT TRUE,
     created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_doctors_user FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    CONSTRAINT fk_doctors_user
+        FOREIGN KEY (user_id)
+        REFERENCES user(id)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX idx_doctor_dni ON doctor(dni);
 CREATE INDEX idx_doctor_cmp ON doctor(cmp);
@@ -345,3 +354,192 @@ CREATE TABLE notification_preference (
     CONSTRAINT uq_pref_user_tipo UNIQUE (user_id, tipo_notificacion)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
+
+
+
+
+
+
+
+-- Inserts
+INSERT INTO symptom (id, nombre, categoria)
+VALUES
+    (UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440000', '-', '')), 'Dolor de cabeza', 'Dolor'),
+    (UNHEX(REPLACE('6ba7b810-9dad-11d1-80b4-00c04fd430c8', '-', '')), 'Fiebre', 'Temperatura'),
+    (UNHEX(REPLACE('7c9e6679-7425-40de-944b-e07fc1f90ae7', '-', '')), 'Tos', 'Respiratorio'),
+    (UNHEX(REPLACE('8b7c9e66-9742-4d3e-944b-e07fc1f90ae8', '-', '')), 'Dolor de garganta', 'Respiratorio'),
+    (UNHEX(REPLACE('9b7c9e66-9742-4d3e-944b-e07fc1f90ae9', '-', '')), 'Fatiga', 'General'),
+    (UNHEX(REPLACE('ab7c9e66-9742-4d3e-944b-e07fc1f90aea', '-', '')), 'Dolor de pecho', 'Dolor'),
+    (UNHEX(REPLACE('bb7c9e66-9742-4d3e-944b-e07fc1f90aeb', '-', '')), 'Náuseas', 'Digestivo'),
+    (UNHEX(REPLACE('cb7c9e66-9742-4d3e-944b-e07fc1f90aec', '-', '')), 'Mareos', 'Neurológico'),
+    (UNHEX(REPLACE('db7c9e66-9742-4d3e-944b-e07fc1f90aed', '-', '')), 'Dolor abdominal', 'Dolor');
+
+
+-- Usuario paciente: María García
+INSERT INTO user (id, email, password_hash, role, verified, active)
+VALUES (
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440000', '-', '')),
+    'paciente@bienestar.app',
+    '{bcrypt}$2a$10$yAczj.phmbK4imtlt4ADTepWFHCjguNGVX.8twlR/2w3g3Sl.8Yee',
+    'PACIENTE',
+    TRUE,
+    TRUE
+);
+
+-- Usuario doctor: Ana Torres
+INSERT INTO user (id, email, password_hash, role, verified, active)
+VALUES (
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440001', '-', '')),
+    'doctor@bienestar.app',
+    '{bcrypt}$2a$10$yAczj.phmbK4imtlt4ADTepWFHCjguNGVX.8twlR/2w3g3Sl.8Yee',
+    'DOCTOR',
+    TRUE,
+    TRUE
+);
+
+
+-- Doctores
+-- Usuario para Dr. Carlos Mendoza
+INSERT INTO user (id, email, password_hash, role, verified, active)
+VALUES (
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440004', '-', '')),
+    'carlos@doctor.com',
+    '{bcrypt}$2a$10$yAczj.phmbK4imtlt4ADTepWFHCjguNGVX.8twlR/2w3g3Sl.8Yee',
+    'DOCTOR',
+    TRUE,
+    TRUE
+);
+
+-- Usuario para Dra. Laura Salazar
+INSERT INTO user (id, email, password_hash, role, verified, active)
+VALUES (
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440005', '-', '')),
+    'laura@doctor.com',
+    '{bcrypt}$2a$10$yAczj.phmbK4imtlt4ADTepWFHCjguNGVX.8twlR/2w3g3Sl.8Yee',
+    'DOCTOR',
+    TRUE,
+    TRUE
+);
+
+-- Usuario entidad: Clínica San Pablo
+INSERT INTO user (id, email, password_hash, role, verified, active)
+VALUES (
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440002', '-', '')),
+    'entidad@bienestar.app',
+    '{bcrypt}$2a$10$yAczj.phmbK4imtlt4ADTepWFHCjguNGVX.8twlR/2w3g3Sl.8Yee',
+    'ENTIDAD',
+    TRUE,
+    TRUE
+);
+
+-- Usuario administrador
+INSERT INTO user (id, email, password_hash, role, verified, active)
+VALUES (
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440003', '-', '')),
+    'admin@bienestar.app',
+    '{bcrypt}$2a$10$yAczj.phmbK4imtlt4ADTepWFHCjguNGVX.8twlR/2w3g3Sl.8Yee',
+    'ADMIN',
+    TRUE,
+    TRUE
+);
+
+
+INSERT INTO patient (id, user_id, dni, nombres, apellidos, fecha_nacimiento, estado_actual)
+VALUES (
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440100', '-', '')),
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440000', '-', '')),
+    '72845163',
+    'María',
+    'García',
+    '1990-05-15',
+    'BUSCANDO_DOCTOR'
+);
+
+
+-- Dra. Ana Torres (Medicina General)
+INSERT INTO doctor ( id, user_id, dni, firstname, lastname, cmp, biografia, es_independiente, es_dependiente, verificado, activo, disponible)
+VALUES (
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440200', '-', '')),
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440001', '-', '')),
+    '12345678',
+    'Ana',
+    'Torres',
+    '123456',
+    'Médico general con amplia experiencia...',
+    FALSE,
+    TRUE,
+    TRUE,
+    TRUE,
+    TRUE
+);
+
+-- Dr. Carlos Mendoza (Cardiología)
+INSERT INTO doctor ( id, user_id, dni, firstname, lastname, cmp, biografia, es_independiente, es_dependiente, verificado, activo, disponible)
+VALUES (
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440201', '-', '')),
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440004', '-', '')),
+    '87654321',
+    'Carlos',
+    'Mendoza',
+    '234567',
+    'Cardiólogo especializado en enfermedades cardiovasculares, con amplia trayectoria en cirugía cardíaca.',
+    FALSE,
+    TRUE,
+    TRUE,
+    TRUE,
+    TRUE
+);
+
+-- Dra. Laura Salazar (Neumología)
+INSERT INTO doctor ( id, user_id, dni, firstname, lastname, cmp, biografia, es_independiente, es_dependiente, verificado, activo, disponible)
+VALUES (
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440202', '-', '')),
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440005', '-', '')),
+    '98765432',
+    'Laura',
+    'Salazar',
+    '345678',
+    'Neumóloga con enfoque en enfermedades respiratorias crónicas y tratamiento de asma, EPOC y alergias.',
+    FALSE,
+    TRUE,
+    TRUE,
+    TRUE,
+    TRUE
+);
+
+
+
+
+
+INSERT INTO specialty (id, nombre, descripcion)
+VALUES
+    (UNHEX(REPLACE('8f14e45f-ea7a-4c3d-9b12-5a7e8c91d234', '-', '')), 'Medicina General', 'Atención primaria'),
+    (UNHEX(REPLACE('3b7c2a91-6d54-4e8f-a123-9c5b7d82f456', '-', '')), 'Cardiología', 'Corazón'),
+    (UNHEX(REPLACE('c6e9f321-2a87-4b5d-8c14-7f3a9e62b781', '-', '')), 'Neumología', 'Pulmones');
+
+
+
+-- Obtén los UUIDs de las especialidades insertadas y asigna al doctor
+INSERT INTO doctor_specialty (id, doctor_id, specialty_id)
+VALUES (
+    UNHEX(REPLACE(UUID(), '-', '')),
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440200', '-', '')),
+    (SELECT id FROM specialty WHERE nombre = 'Medicina General')
+);
+
+-- Dr. Carlos Mendoza → Cardiología
+INSERT INTO doctor_specialty (id, doctor_id, specialty_id)
+VALUES (
+    UNHEX(REPLACE(UUID(), '-', '')),
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440201', '-', '')),
+    (SELECT id FROM specialty WHERE nombre = 'Cardiología')
+);
+
+-- Dra. Laura Salazar → Neumología
+INSERT INTO doctor_specialty (id, doctor_id, specialty_id)
+VALUES (
+    UNHEX(REPLACE(UUID(), '-', '')),
+    UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440202', '-', '')),
+    (SELECT id FROM specialty WHERE nombre = 'Neumología')
+);

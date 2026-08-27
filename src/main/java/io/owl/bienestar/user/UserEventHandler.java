@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
 @Component
-@RepositoryEventHandler(User.class)
+@RepositoryEventHandler
 @RequiredArgsConstructor
 public class UserEventHandler {
 

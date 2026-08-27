@@ -20,6 +20,9 @@ public class Doctor {
     private UUID id;
     
     private UUID userId;            // referencia a UserModel
+
+    private String firstname;
+    private String lastname;
     private String dni;
     private String cmp;
     private String biografia;

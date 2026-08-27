@@ -45,6 +45,7 @@ public class AuthController {
       .issuedAt(now)
       .expiresAt(now.plus(1, ChronoUnit.HOURS))
       .claim("roles", authorities)
+      // .claim("userId", authentication.getAuthorities)
       .build();
 
     String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
